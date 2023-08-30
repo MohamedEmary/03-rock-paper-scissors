@@ -1,30 +1,33 @@
 const choices = ["rock", "paper", "scissors"];
 
 function getComputerChoice() {
-	return Math.floor(Math.random() * choices.length);
+	return choices[Math.floor(Math.random() * choices.length)];
 }
 
 function play(playerSelection, computerSelection) {
 	playerSelection = playerSelection.toLowerCase();
-	console.log(`Computer Choice: ${computerSelection}`);
-	console.log(`Player Choice: ${playerSelection}`);
+	msg = `Computer Choice: ${computerSelection}\n`;
+	msg += `Player Choice: ${playerSelection}\n`;
 	if (computerSelection === playerSelection) {
-		return "Draw!";
+		msg += "Draw!";
+		return msg;
 	} else if (
 		(playerSelection === "rock" && computerSelection === "paper") ||
 		(playerSelection === "paper" && computerSelection === "scissors") ||
 		(playerSelection === "scissors" && computerSelection === "rock")
 	) {
-		return "Computer Win!";
+		msg += "Computer Win!";
+		return msg;
 	} else {
-		return "Player Win!";
+		msg += "Player Win!";
+		return msg;
 	}
 }
 
 function game() {
 	computerSelection = getComputerChoice();
 	playerSelection = prompt("Enter rock paper or scissors");
-	console.log(play(playerSelection, computerSelection));
+	alert(play(playerSelection, computerSelection));
 }
 
 game();
