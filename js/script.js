@@ -14,18 +14,40 @@ function playRound(playerSelection, computerSelection) {
     (playerSelection === "paper" && computerSelection === "scissors") ||
     (playerSelection === "scissors" && computerSelection === "rock")
   ) {
-    msg = `You Lose!\n${computerSelection} beats ${playerSelection}`;
+    msg = `You Lost the round!\n${computerSelection} beats ${playerSelection}`;
     return msg;
   } else {
-    msg = `You Win!\n${playerSelection} beats ${computerSelection}`;
+    msg = `You Win the round!\n${playerSelection} beats ${computerSelection}`;
   }
   return msg;
 }
 
 function playGame() {
-  let computerSelection = getComputerChoice();
-  let playerSelection = prompt("Enter rock paper or scissors");
-  alert(play(playerSelection, computerSelection));
+  let history = { win: 0, lose: 0 }; // ["win", "lose"] it's better to be a dictionary
+  numOfGames = parseInt(prompt("Enter the number of rounds you want to play"));
+  for (let i = 0; i < numOfGames; i++) {
+    let computerSelection = getComputerChoice();
+    let playerSelection = prompt("Enter rock paper or scissors");
+    let msg = playRound(playerSelection, computerSelection);
+    alert(msg);
+    if (msg.includes("Win")) {
+      history.win++;
+    } else if (msg.includes("Lost")) {
+      history.lose++;
+    }
+  }
+  alert(getWinner(history));
 }
 
-game();
+function getWinner(history) {
+  let { win, lose } = history;
+  if (win > lose) {
+    return `You Won! Congrats.`;
+  } else if (lose > win) {
+    return `You Lost The Game! Good luck next time.`;
+  } else {
+    return `Draw!`;
+  }
+}
+
+playGame();
