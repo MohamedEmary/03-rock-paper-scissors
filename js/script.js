@@ -20,3 +20,11 @@ function play(playerSelection, computerSelection) {
 		return "Player Win!";
 	}
 }
+
+function game() {
+	computerSelection = getComputerChoice();
+	playerSelection = prompt("Enter rock paper or scissors");
+	console.log(play(playerSelection, computerSelection));
+}
+
+game();
