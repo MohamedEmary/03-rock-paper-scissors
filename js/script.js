@@ -24,7 +24,9 @@ function playRound(playerSelection, computerSelection) {
 
 function playGame() {
   let history = { win: 0, lose: 0 }; // ["win", "lose"] it's better to be a dictionary
-  numOfGames = parseInt(prompt("Enter the number of rounds you want to play"));
+  numOfGames = parseInt(
+    prompt("Enter the number of rounds you want to play", "")
+  );
   for (let i = 0; i < numOfGames; i++) {
     let computerSelection = getComputerChoice();
     let playerSelection = prompt("Enter rock paper or scissors");
@@ -42,11 +44,11 @@ function playGame() {
 function getWinner(history) {
   let { win, lose } = history;
   if (win > lose) {
-    return `You Won! Congrats.`;
+    return "You Won! Congrats.";
   } else if (lose > win) {
-    return `You Lost The Game! Good luck next time.`;
+    return "You Lost The Game! Good luck next time.";
   } else {
-    return `Draw!`;
+    return "Draw!";
   }
 }
 
