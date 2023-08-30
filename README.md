@@ -1,1 +1,1 @@
-# 03-rock-paper-scissors
+# Rock Paper Scissors
