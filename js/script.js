@@ -6,27 +6,25 @@ function getComputerChoice() {
 
 function play(playerSelection, computerSelection) {
 	playerSelection = playerSelection.toLowerCase();
-	msg = `Computer Choice: ${computerSelection}\n`;
-	msg += `Player Choice: ${playerSelection}\n`;
+	let msg;
 	if (computerSelection === playerSelection) {
-		msg += "Draw!";
-		return msg;
+		msg = `Draw!\nYou and Computer both chose ${computerSelection}`;
 	} else if (
 		(playerSelection === "rock" && computerSelection === "paper") ||
 		(playerSelection === "paper" && computerSelection === "scissors") ||
 		(playerSelection === "scissors" && computerSelection === "rock")
 	) {
-		msg += "Computer Win!";
+		msg = `You Lose!\n${computerSelection} beats ${playerSelection}`;
 		return msg;
 	} else {
-		msg += "Player Win!";
-		return msg;
+		msg = `You Win!\n${playerSelection} beats ${computerSelection}`;
 	}
+	return msg;
 }
 
 function game() {
-	computerSelection = getComputerChoice();
-	playerSelection = prompt("Enter rock paper or scissors");
+	let computerSelection = getComputerChoice();
+	let playerSelection = prompt("Enter rock paper or scissors");
 	alert(play(playerSelection, computerSelection));
 }
 
