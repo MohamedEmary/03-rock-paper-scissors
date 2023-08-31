@@ -22,6 +22,7 @@ function playRound(playerSelection, computerSelection) {
   return msg;
 }
 
+// Each game consists of a number of rounds specified by user
 function playGame() {
   let history = { win: 0, lose: 0 }; // ["win", "lose"] it's better to be a dictionary
   numOfGames = parseInt(
