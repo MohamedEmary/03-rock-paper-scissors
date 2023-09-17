@@ -1,65 +1,64 @@
-let gameOver = false;
 const choices = ["rock", "paper", "scissors"];
-
+const MAX_ROUNDS = 5;
 function getComputerChoice() {
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
 let scoreHistory = { playerScore: 0, computerScore: 0 };
 
-function playRound(playerSelection) {
+function playGameRound(playerSelection) {
   let msg;
-  let computerSelection = getComputerChoice();
+  const computerSelection = getComputerChoice();
+  const winConditions = {
+    rock: "scissors",
+    paper: "rock",
+    scissors: "paper",
+  };
   if (computerSelection === playerSelection) {
-    msg = `Draw!<br>You and Computer both chose ${computerSelection}`;
-  } else if (
-    (playerSelection === "rock" && computerSelection === "paper") ||
-    (playerSelection === "paper" && computerSelection === "scissors") ||
-    (playerSelection === "scissors" && computerSelection === "rock")
-  ) {
-    msg = `You Lost the round!<br>${computerSelection} beats ${playerSelection}`;
-    scoreHistory.computerScore++;
-  } else {
-    msg = `You Win the round!<br>${playerSelection} beats ${computerSelection}`;
+    msg = `<p>Draw!<br>You and Computer both chose ${computerSelection}</p>`;
+  } else if (winConditions[playerSelection] === computerSelection) {
+    msg = `<p>You Win the round!<br>${playerSelection} beats ${computerSelection}</p>`;
     scoreHistory.playerScore++;
-  }
-  if (scoreHistory.playerScore === 5 || scoreHistory.computerScore === 5) {
-    gameOver = true;
+  } else {
+    msg = `<p>You Lost the round!<br>${computerSelection} beats ${playerSelection}</p>`;
+    scoreHistory.computerScore++;
   }
   writeResultDiv(msg);
+}
+
+function isGameOver() {
+  return (
+    scoreHistory.playerScore === MAX_ROUNDS ||
+    scoreHistory.computerScore === MAX_ROUNDS
+  );
 }
 
 function writeResultDiv(resultMsg) {
   const resultDiv = document.querySelector("#result");
   resultDiv.innerHTML = resultMsg;
-  resultDiv.innerHTML += `<br>Player Score: ${scoreHistory.playerScore}<br>`;
-  resultDiv.innerHTML += `Computer Score: ${scoreHistory.computerScore}<br>`;
-  if (gameOver) {
+  resultDiv.innerHTML += `<p>Player Score: ${scoreHistory.playerScore}</p>`;
+  resultDiv.innerHTML += `<p>Computer Score: ${scoreHistory.computerScore}</p>`;
+  if (isGameOver()) {
     resultDiv.innerHTML +=
       scoreHistory.playerScore > scoreHistory.computerScore
-        ? `Player Win The Game`
-        : `Computer Win The Game`;
+        ? `<p>Player Win The Game</p>`
+        : `<p>Computer Win The Game</p>`;
     scoreHistory = { playerScore: 0, computerScore: 0 };
-    gameOver = false;
   }
 }
 
-function handleClick(choice) {
-  playRound(choice);
+function handlePlayerSelection(choice) {
+  playGameRound(choice);
   showFinalResult();
 }
 
 const rockButton = document.querySelector("#rock");
-rockButton.addEventListener("click", function () {
-  handleClick("rock");
-});
+rockButton.addEventListener("click", () => handlePlayerSelection("rock"));
 
 const paperButton = document.querySelector("#paper");
-paperButton.addEventListener("click", function () {
-  handleClick("paper");
-});
+paperButton.addEventListener("click", () => handlePlayerSelection("paper"));
 
 const scissorsButton = document.querySelector("#scissors");
-scissorsButton.addEventListener("click", function () {
-  handleClick("scissors");
-});
+scissorsButton.addEventListener("click", () =>
+  handlePlayerSelection("scissors")
+);
