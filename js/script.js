@@ -4,8 +4,9 @@ function getComputerChoice() {
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
+let history = { win: 0, lose: 0 }; // ["win", "lose"] it's better to be a dictionary
+
 function playRound(playerSelection, computerSelection) {
-  playerSelection = playerSelection.toLowerCase();
   let msg;
   if (computerSelection === playerSelection) {
     msg = `Draw!\nYou and Computer both chose ${computerSelection}`;
@@ -15,42 +16,44 @@ function playRound(playerSelection, computerSelection) {
     (playerSelection === "scissors" && computerSelection === "rock")
   ) {
     msg = `You Lost the round!\n${computerSelection} beats ${playerSelection}`;
-    return msg;
+    history.lose++;
   } else {
     msg = `You Win the round!\n${playerSelection} beats ${computerSelection}`;
+    history.win++;
   }
   return msg;
 }
 
-// Each game consists of a number of rounds specified by user
-function playGame() {
-  let history = { win: 0, lose: 0 }; // ["win", "lose"] it's better to be a dictionary
-  numOfGames = parseInt(
-    prompt("Enter the number of rounds you want to play", "")
-  );
-  for (let i = 0; i < numOfGames; i++) {
-    let computerSelection = getComputerChoice();
-    let playerSelection = prompt("Enter rock paper or scissors");
-    let msg = playRound(playerSelection, computerSelection);
-    alert(msg);
-    if (msg.includes("Win")) {
-      history.win++;
-    } else if (msg.includes("Lost")) {
-      history.lose++;
-    }
-  }
-  alert(getWinner(history));
+function writeResultDiv(resultMsg) {
+  const resultDiv = document.querySelector("#result");
+  resultDiv.textContent = resultMsg;
 }
 
-function getWinner(history) {
-  let { win, lose } = history;
-  if (win > lose) {
-    return "You Won! Congrats.";
-  } else if (lose > win) {
-    return "You Lost The Game! Good luck next time.";
-  } else {
-    return "Draw!";
+function showFinalResult() {
+  if (history["win"] === 5) {
+    writeResultDiv("You won the game");
+  } else if (history["lose"] === 5) {
+    writeResultDiv("You lost the game");
   }
 }
 
-playGame();
+function addButtonFunctionality(choice) {
+  let resultMsg = playRound(choice, getComputerChoice());
+  writeResultDiv(resultMsg);
+  showFinalResult();
+}
+
+const rockButton = document.querySelector("#rock");
+rockButton.addEventListener("click", function () {
+  addButtonFunctionality("rock");
+});
+
+const paperButton = document.querySelector("#paper");
+paperButton.addEventListener("click", function () {
+  addButtonFunctionality("paper");
+});
+
+const scissorsButton = document.querySelector("#scissors");
+scissorsButton.addEventListener("click", function () {
+  addButtonFunctionality("scissors");
+});
