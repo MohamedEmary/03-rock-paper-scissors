@@ -1,14 +1,30 @@
-const choices = ["rock", "paper", "scissors"];
+const selections = ["rock", "paper", "scissors"];
 const MAX_ROUNDS = 5;
-function getComputerChoice() {
-  return choices[Math.floor(Math.random() * choices.length)];
+function getComputerSelection() {
+  const selection = selections[Math.floor(Math.random() * selections.length)];
+  addSelectionImg(selection);
+  return selection;
 }
 
 let scoreHistory = { playerScore: 0, computerScore: 0 };
 
+function addSelectionImg(computerSelection = "", playerSelection = "") {
+  let selection = "";
+  let selectionImg;
+  if (computerSelection === "") {
+    selection = playerSelection;
+    selectionImg = document.querySelector(`#player-selection-img`);
+  } else {
+    selection = computerSelection;
+    selectionImg = document.querySelector(`#computer-selection-img`);
+  }
+  const imageSrc = `img/${selection}.png`;
+  selectionImg.src = imageSrc;
+}
+
 function playGameRound(playerSelection) {
   let msg;
-  const computerSelection = getComputerChoice();
+  const computerSelection = getComputerSelection();
   const winConditions = {
     rock: "scissors",
     paper: "rock",
@@ -34,7 +50,7 @@ function isGameOver() {
 }
 
 function writeResultDiv(resultMsg) {
-  const resultDiv = document.querySelector("#result");
+  const resultDiv = document.querySelector("#result-text");
   resultDiv.innerHTML = resultMsg;
   resultDiv.innerHTML += `<p>Player Score: ${scoreHistory.playerScore}</p>`;
   resultDiv.innerHTML += `<p>Computer Score: ${scoreHistory.computerScore}</p>`;
@@ -47,9 +63,9 @@ function writeResultDiv(resultMsg) {
   }
 }
 
-function handlePlayerSelection(choice) {
-  playGameRound(choice);
-  showFinalResult();
+function handlePlayerSelection(selection) {
+  addSelectionImg("", selection);
+  playGameRound(selection);
 }
 
 const rockButton = document.querySelector("#rock");
@@ -62,3 +78,13 @@ const scissorsButton = document.querySelector("#scissors");
 scissorsButton.addEventListener("click", () =>
   handlePlayerSelection("scissors")
 );
+
+const githubIcon = document.querySelector(".fa-github");
+
+githubIcon.addEventListener("mouseenter", function () {
+  githubIcon.classList.add("fa-spin");
+});
+
+githubIcon.addEventListener("mouseleave", function () {
+  githubIcon.classList.remove("fa-spin");
+});
