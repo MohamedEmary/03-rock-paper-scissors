@@ -3,9 +3,50 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 97.8vh;
+  min-height: 100vh;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.main-container {
+.header,
+.main-container,
+.footer {
   display: flex;
+}
+
+.header,
+.footer {
+  width: 100%;
+}
+
+.header {
+  color: yellow;
+  background-color: rgba(32, 40, 54, 0.997);
+  text-align: center;
+  justify-content: center;
+}
+
+button {
+  background-color: transparent;
+  /* border: none; */
+  background-color: rgba(43, 54, 73, 0.997);
+  border-radius: 10px;
+}
+
+img {
+  width: 15vh;
+}
+
+.footer {
+  color: white;
+  font-weight: bold;
+  background-color: rgba(43, 54, 73, 0.997);
+  justify-content: center;
+  margin: 0;
+  padding: 0px;
+  font-size: larger;
+}
+
+.fa-github {
+  color: white;
 }
