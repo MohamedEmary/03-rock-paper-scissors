@@ -24,23 +24,29 @@ body {
   background-color: rgba(32, 40, 54, 0.997);
   text-align: center;
   justify-content: center;
+  margin-bottom: 5vh;
 }
 
-button,
-#imges {
-  background-color: transparent;
-  /* border: none; */
+button {
+  border: 10px solid rgba(43, 54, 73, 0.997);
   background-color: rgba(43, 54, 73, 0.997);
   border-radius: 10px;
 }
 
-/* #imges img {
-  padding: 20px;
-  border: 2px solid black;
-} */
-
 img {
   width: 15vh;
+}
+
+#images {
+  display: flex;
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+  margin-top: 5vh;
+}
+
+#images .computer-div {
+  margin-left: 10vh;
 }
 
 .footer {
@@ -49,6 +55,7 @@ img {
   background-color: rgba(43, 54, 73, 0.997);
   justify-content: center;
   margin: 0;
+  margin-top: 5vh;
   padding: 0px;
   font-size: larger;
 }

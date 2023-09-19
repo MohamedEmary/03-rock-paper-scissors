@@ -20,6 +20,27 @@ function addSelectionImg(computerSelection = "", playerSelection = "") {
   }
   const imageSrc = `img/${selection}.png`;
   selectionImg.src = imageSrc;
+  selectionImg.alt = `${selection} image`;
+  const button = document.querySelector("button");
+  selectionImg.style.backgroundColor = "rgba(43, 54, 73, 0.997)";
+  selectionImg.style.borderRadius = "10px";
+  selectionImg.style.border = "10px solid rgba(43, 54, 73, 0.997)";
+}
+
+function writeResults(resultMsg) {
+  const resultDiv = document.querySelector("#result-text");
+  resultDiv.innerHTML = resultMsg;
+  const playerDiv = document.querySelector("#player-p-text");
+  const computerDiv = document.querySelector("#computer-p-text");
+  playerDiv.textContent = `Player: ${scoreHistory.playerScore}`;
+  computerDiv.textContent = `Computer: ${scoreHistory.computerScore}`;
+  if (isGameOver()) {
+    resultDiv.innerHTML +=
+      scoreHistory.playerScore > scoreHistory.computerScore
+        ? `<p>Player Win The Game</p>`
+        : `<p>Computer Win The Game</p>`;
+    scoreHistory = { playerScore: 0, computerScore: 0 };
+  }
 }
 
 function playGameRound(playerSelection) {
@@ -31,15 +52,15 @@ function playGameRound(playerSelection) {
     scissors: "paper",
   };
   if (computerSelection === playerSelection) {
-    msg = `<p>Draw!<br>You and Computer both chose ${computerSelection}</p>`;
+    msg = `<p>Draw!</p>`;
   } else if (winConditions[playerSelection] === computerSelection) {
-    msg = `<p>You Win the round!<br>${playerSelection} beats ${computerSelection}</p>`;
+    msg = `<p>You Win</p>`;
     scoreHistory.playerScore++;
   } else {
-    msg = `<p>You Lost the round!<br>${computerSelection} beats ${playerSelection}</p>`;
+    msg = `<p>You Lost</p>`;
     scoreHistory.computerScore++;
   }
-  writeResultDiv(msg);
+  writeResults(msg);
 }
 
 function isGameOver() {
@@ -47,20 +68,6 @@ function isGameOver() {
     scoreHistory.playerScore === MAX_ROUNDS ||
     scoreHistory.computerScore === MAX_ROUNDS
   );
-}
-
-function writeResultDiv(resultMsg) {
-  const resultDiv = document.querySelector("#result-text");
-  resultDiv.innerHTML = resultMsg;
-  resultDiv.innerHTML += `<p>Player Score: ${scoreHistory.playerScore}</p>`;
-  resultDiv.innerHTML += `<p>Computer Score: ${scoreHistory.computerScore}</p>`;
-  if (isGameOver()) {
-    resultDiv.innerHTML +=
-      scoreHistory.playerScore > scoreHistory.computerScore
-        ? `<p>Player Win The Game</p>`
-        : `<p>Computer Win The Game</p>`;
-    scoreHistory = { playerScore: 0, computerScore: 0 };
-  }
 }
 
 function handlePlayerSelection(selection) {
