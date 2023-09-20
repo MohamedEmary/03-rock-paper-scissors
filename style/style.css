@@ -9,13 +9,8 @@ body {
 }
 
 .header,
-.main-container,
 .footer {
   display: flex;
-}
-
-.header,
-.footer {
   width: 100%;
 }
 
