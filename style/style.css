@@ -37,7 +37,6 @@ body {
   justify-content: space-around;
   flex-shrink: 1;
   align-items: center;
-  
 }
 #result {
   color: white;
@@ -47,6 +46,13 @@ body {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
+}
+
+#new-game {
+  display: none;
+  font-size: larger;
+  font-weight: bold;
+  color: white;
 }
 
 .final-res {

@@ -1,5 +1,5 @@
 const selections = ["rock", "paper", "scissors"];
-const MAX_ROUNDS = 2;
+const MAX_ROUNDS = 5;
 const scoreHistory = { playerScore: 0, computerScore: 0 };
 
 function getComputerSelection() {
@@ -18,23 +18,14 @@ function addSelectionImg(computerSelection = "", playerSelection = "") {
     selection = computerSelection;
     selectionImg = document.querySelector(`#computer-selection-img`);
   }
-  // const imageSrc = `img/${selection}.png`;
   selectionImg.src = `img/${selection}.png`;
   selectionImg.alt = `${selection} image`;
-  // const button = document.querySelector("button");
-  // selectionImg.style.backgroundColor = "rgba(43, 54, 73, 0.997)";
-  // selectionImg.style.borderRadius = "10px";
-  // selectionImg.style.border = "10px solid rgba(43, 54, 73, 0.997)";
 }
 
-function writeResults(resultMsg) {
-  const playerDiv = document.querySelector("#player-p-text");
-  const computerDiv = document.querySelector("#computer-p-text");
-  playerDiv.textContent = `Player: ${scoreHistory.playerScore}`;
-  computerDiv.textContent = `Computer: ${scoreHistory.computerScore}`;
-  const resultDiv = document.querySelector("#result-text");
-  resultDiv.innerHTML = resultMsg;
+function resetGame() {
+  // This function needs a refactor
   if (isGameOver()) {
+    const resultDiv = document.querySelector("#result-text");
     let roundRes = document.querySelector("#round-res");
     roundRes.remove();
     resultDiv.innerHTML +=
@@ -42,33 +33,34 @@ function writeResults(resultMsg) {
         ? `<p class="final-res">Player Win The Game</p>`
         : `<p class="final-res">Computer Win The Game</p>`;
     const selectionButtons = document.querySelectorAll("#buttons button");
-    const buttonsDiv = document.querySelector("#buttons");
     selectionButtons.forEach((btn) => (btn.style.display = "none"));
-    buttonsDiv.innerHTML += `<button id="new-game" style="font-size:larger; font-weight:bold; color:white">New Game</button>`;
     const newGameButton = document.querySelector("#new-game");
+    newGameButton.style.display = "block";
     newGameButton.addEventListener("click", () => {
       const selectionButtons = document.querySelectorAll("#buttons button"); // not the same scope as the one above
       selectionButtons.forEach((btn) => (btn.style.display = "block"));
       scoreHistory.playerScore = 0;
       scoreHistory.computerScore = 0;
+      console.log(scoreHistory);
+      writePlayersScore();
+      document.querySelector(".final-res").textContent = "";
       newGameButton.style.display = "none";
-
-      const rockButton = document.querySelector("#rock");
-      rockButton.addEventListener("click", () =>
-        handleSelectionButtons("rock")
-      );
-
-      const paperButton = document.querySelector("#paper");
-      paperButton.addEventListener("click", () =>
-        handleSelectionButtons("paper")
-      );
-
-      const scissorsButton = document.querySelector("#scissors");
-      scissorsButton.addEventListener("click", () =>
-        handleSelectionButtons("scissors")
-      );
     });
   }
+}
+function writePlayersScore() {
+  const playerDiv = document.querySelector("#player-p-text");
+  const computerDiv = document.querySelector("#computer-p-text");
+  playerDiv.textContent = `Player: ${scoreHistory.playerScore}`;
+  computerDiv.textContent = `Computer: ${scoreHistory.computerScore}`;
+}
+
+function writeResults(roundResultMsg) {
+  // Try to improve the function by using `document.createElement('p')` with id=round-res
+  writePlayersScore();
+  const resultDiv = document.querySelector("#result-text");
+  resultDiv.innerHTML = roundResultMsg;
+  resetGame();
 }
 
 function playGameRound(playerSelection) {
@@ -99,8 +91,6 @@ function isGameOver() {
     scoreHistory.computerScore === MAX_ROUNDS
   );
 }
-
-// =================================================
 
 function handleSelectionButtons(PlayerSelection) {
   addSelectionImg("", PlayerSelection);
