@@ -34,11 +34,11 @@ body {
 #buttons {
   width: 70%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-shrink: 1;
   align-items: center;
+  
 }
-
 #result {
   color: white;
 }
@@ -47,7 +47,12 @@ body {
   text-align: center;
   font-size: x-large;
   font-weight: bold;
+}
 
+.final-res {
+  font-size: x-large;
+  font-weight: bold;
+  font-style: italic;
 }
 
 button {

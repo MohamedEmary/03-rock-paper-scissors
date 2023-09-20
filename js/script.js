@@ -1,12 +1,12 @@
 const selections = ["rock", "paper", "scissors"];
-const MAX_ROUNDS = 5;
+const MAX_ROUNDS = 2;
+const scoreHistory = { playerScore: 0, computerScore: 0 };
+
 function getComputerSelection() {
   const selection = selections[Math.floor(Math.random() * selections.length)];
   addSelectionImg(selection);
   return selection;
 }
-
-let scoreHistory = { playerScore: 0, computerScore: 0 };
 
 function addSelectionImg(computerSelection = "", playerSelection = "") {
   let selection = "";
@@ -18,49 +18,79 @@ function addSelectionImg(computerSelection = "", playerSelection = "") {
     selection = computerSelection;
     selectionImg = document.querySelector(`#computer-selection-img`);
   }
-  const imageSrc = `img/${selection}.png`;
-  selectionImg.src = imageSrc;
+  // const imageSrc = `img/${selection}.png`;
+  selectionImg.src = `img/${selection}.png`;
   selectionImg.alt = `${selection} image`;
-  const button = document.querySelector("button");
-  selectionImg.style.backgroundColor = "rgba(43, 54, 73, 0.997)";
-  selectionImg.style.borderRadius = "10px";
-  selectionImg.style.border = "10px solid rgba(43, 54, 73, 0.997)";
+  // const button = document.querySelector("button");
+  // selectionImg.style.backgroundColor = "rgba(43, 54, 73, 0.997)";
+  // selectionImg.style.borderRadius = "10px";
+  // selectionImg.style.border = "10px solid rgba(43, 54, 73, 0.997)";
 }
 
 function writeResults(resultMsg) {
-  const resultDiv = document.querySelector("#result-text");
-  resultDiv.innerHTML = resultMsg;
   const playerDiv = document.querySelector("#player-p-text");
   const computerDiv = document.querySelector("#computer-p-text");
   playerDiv.textContent = `Player: ${scoreHistory.playerScore}`;
   computerDiv.textContent = `Computer: ${scoreHistory.computerScore}`;
+  const resultDiv = document.querySelector("#result-text");
+  resultDiv.innerHTML = resultMsg;
   if (isGameOver()) {
+    let roundRes = document.querySelector("#round-res");
+    roundRes.remove();
     resultDiv.innerHTML +=
       scoreHistory.playerScore > scoreHistory.computerScore
-        ? `<p>Player Win The Game</p>`
-        : `<p>Computer Win The Game</p>`;
-    scoreHistory = { playerScore: 0, computerScore: 0 };
+        ? `<p class="final-res">Player Win The Game</p>`
+        : `<p class="final-res">Computer Win The Game</p>`;
+    const selectionButtons = document.querySelectorAll("#buttons button");
+    const buttonsDiv = document.querySelector("#buttons");
+    selectionButtons.forEach((btn) => (btn.style.display = "none"));
+    buttonsDiv.innerHTML += `<button id="new-game" style="font-size:larger; font-weight:bold; color:white">New Game</button>`;
+    const newGameButton = document.querySelector("#new-game");
+    newGameButton.addEventListener("click", () => {
+      const selectionButtons = document.querySelectorAll("#buttons button"); // not the same scope as the one above
+      selectionButtons.forEach((btn) => (btn.style.display = "block"));
+      scoreHistory.playerScore = 0;
+      scoreHistory.computerScore = 0;
+      newGameButton.style.display = "none";
+
+      const rockButton = document.querySelector("#rock");
+      rockButton.addEventListener("click", () =>
+        handleSelectionButtons("rock")
+      );
+
+      const paperButton = document.querySelector("#paper");
+      paperButton.addEventListener("click", () =>
+        handleSelectionButtons("paper")
+      );
+
+      const scissorsButton = document.querySelector("#scissors");
+      scissorsButton.addEventListener("click", () =>
+        handleSelectionButtons("scissors")
+      );
+    });
   }
 }
 
 function playGameRound(playerSelection) {
-  let msg;
-  const computerSelection = getComputerSelection();
-  const winConditions = {
-    rock: "scissors",
-    paper: "rock",
-    scissors: "paper",
-  };
-  if (computerSelection === playerSelection) {
-    msg = `<p>Draw!</p>`;
-  } else if (winConditions[playerSelection] === computerSelection) {
-    msg = `<p>You Win</p>`;
-    scoreHistory.playerScore++;
-  } else {
-    msg = `<p>You Lost</p>`;
-    scoreHistory.computerScore++;
+  if (!isGameOver()) {
+    let roundResultMsg;
+    const computerSelection = getComputerSelection();
+    const winConditions = {
+      rock: "scissors",
+      paper: "rock",
+      scissors: "paper",
+    };
+    if (computerSelection === playerSelection) {
+      roundResultMsg = `<p id="round-res">Draw!</p>`;
+    } else if (winConditions[playerSelection] === computerSelection) {
+      roundResultMsg = `<p id="round-res">You Win</p>`;
+      scoreHistory.playerScore++;
+    } else {
+      roundResultMsg = `<p id="round-res">You Lost</p>`;
+      scoreHistory.computerScore++;
+    }
+    writeResults(roundResultMsg);
   }
-  writeResults(msg);
 }
 
 function isGameOver() {
@@ -70,20 +100,26 @@ function isGameOver() {
   );
 }
 
-function handlePlayerSelection(selection) {
-  addSelectionImg("", selection);
-  playGameRound(selection);
+// =================================================
+
+function handleSelectionButtons(PlayerSelection) {
+  addSelectionImg("", PlayerSelection);
+  playGameRound(PlayerSelection);
 }
 
+// code can be improved by looping on the buttons in buttons
+// div with i loop variable and passing selections[i] to
+// playGameRound(selections[i]) function
+
 const rockButton = document.querySelector("#rock");
-rockButton.addEventListener("click", () => handlePlayerSelection("rock"));
+rockButton.addEventListener("click", () => handleSelectionButtons("rock"));
 
 const paperButton = document.querySelector("#paper");
-paperButton.addEventListener("click", () => handlePlayerSelection("paper"));
+paperButton.addEventListener("click", () => handleSelectionButtons("paper"));
 
 const scissorsButton = document.querySelector("#scissors");
 scissorsButton.addEventListener("click", () =>
-  handlePlayerSelection("scissors")
+  handleSelectionButtons("scissors")
 );
 
 const githubIcon = document.querySelector(".fa-github");
