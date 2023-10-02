@@ -1,5 +1,7 @@
 # Rock Paper Scissors
 
+![Website UI](readme_images/ui.png)
+
 A simple rock paper scissors game website, presented as a project within The Odin Project web development curriculum.
 
 In this website, I will apply what I have learned in JavaScript from [The Odin Project](https://www.theodinproject.com/) curriculum to create a this website.
